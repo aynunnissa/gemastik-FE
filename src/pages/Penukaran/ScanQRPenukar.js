@@ -9,7 +9,7 @@ const ScanQRPenukar = () => {
 
   return (
     <Box>
-      <Box width="100%" sx={{ backgroundColor: "rgba(0, 0, 0, 0.54)" }} pb={5}>
+      <Box width="100%" sx={{ backgroundColor: "rgba(0, 0, 0, 0.54)" }} pb={6}>
         <Box display="flex" gap={4} px={3} py={4}>
           <ArrowBack
             sx={{ color: "white", cursor: "pointer" }}

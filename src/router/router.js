@@ -9,19 +9,14 @@ import HomepagePenabung from "../pages/HomepagePenabung/HomepagePenabung";
 
 const AllRoute = () => {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Homepage />} />
-        <Route path="/penjemput" element={<HomepagePenjemput />} />
-        <Route path="/mitra/scan-qr-penukar" element={<ScanQRPenukar />} />
-        <Route
-          path="/mitra/input-data-penukar"
-          element={<InputDataPenukar />}
-        />
-        <Route path="/mitra/penukaran-berhasil" element={<Success />} />
-        <Route path="/penabung" element={<HomepagePenabung />} />
-      </Routes>
-    </BrowserRouter>
+    <Routes>
+      <Route path="/" element={<HomepagePenabung />} />
+      <Route path="/penjemput" element={<HomepagePenjemput />} />
+      <Route path="/mitra/scan-qr-penukar" element={<ScanQRPenukar />} />
+      <Route path="/mitra/input-data-penukar" element={<InputDataPenukar />} />
+      <Route path="/mitra/penukaran-berhasil" element={<Success />} />
+      {/* <Route path="/penabung" element={<HomepagePenabung />} /> */}
+    </Routes>
   );
 };
 

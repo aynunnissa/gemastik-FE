@@ -1,13 +1,22 @@
-import { Box, Typography, Container, Card, CardContent, IconButton, CardMedia, Button } from "@mui/material";
-import './HomepagePenabung.css'
-import Penjemputan from './Penjemputan.svg';
-import TarikDana from './TarikDanaSementara.svg';
-import Challenge from './Challenge.svg';
+import {
+  Box,
+  Typography,
+  Container,
+  Card,
+  CardContent,
+  IconButton,
+  CardMedia,
+  Button,
+} from "@mui/material";
+import "./HomepagePenabung.css";
+import Penjemputan from "./Penjemputan.svg";
+import TarikDana from "./TarikDanaSementara.svg";
+import Challenge from "./Challenge.svg";
 
 const HomepagePenabung = () => {
   return (
-    <Box component="main">
-      <Container fixed class="banner">
+    <Box component="main" pb={2}>
+      <Container fixed className="banner">
         <Typography component="h3" className="extra-bold">
           CLOTHRASH
         </Typography>
@@ -19,13 +28,14 @@ const HomepagePenabung = () => {
       <Card className="card-homepage-penabung text-left">
         <Box className="col">
           <Box className="center row-box">
-            <Box className="col" sx={{ width : '15rem' }}>
-              <CardContent sx={{ flex: '1 0 auto' }}>
-                <Typography component="h2" className='text-bold'>
+            <Box className="col" sx={{ width: "15rem" }}>
+              <CardContent sx={{ flex: "1 0 auto" }}>
+                <Typography component="h2" className="text-bold">
                   Penjemputan
                 </Typography>
                 <Typography component="h3">
-                  Ajukan penjemputan agar sampah kain mu segera diambil Penjemput
+                  Ajukan penjemputan agar sampah kain mu segera diambil
+                  Penjemput
                 </Typography>
               </CardContent>
             </Box>
@@ -39,20 +49,22 @@ const HomepagePenabung = () => {
             </Box>
           </Box>
           <Box className="col">
-            <Button variant="contained" className="button-ajukan">Ajukan Pejemputan</Button>
+            <Button variant="contained" className="button-ajukan">
+              Ajukan Pejemputan
+            </Button>
           </Box>
         </Box>
       </Card>
 
       <Card className="card-homepage-penabung text-left">
         <Box className="col">
-          <Box className='center row-box'>
-            <Box className="col" sx={{ width : '15rem' }}>
-              <CardContent sx={{ flex: '1 0 auto' }}>
-                <Typography component="h2" className='text-bold'>
+          <Box className="center row-box">
+            <Box className="col" sx={{ width: "15rem" }}>
+              <CardContent sx={{ flex: "1 0 auto" }}>
+                <Typography component="h2" className="text-bold">
                   Imbalan
                 </Typography>
-                <Box className='row-box'>
+                <Box className="row-box">
                   <Typography component="h2" className="black">
                     500
                   </Typography>
@@ -74,11 +86,14 @@ const HomepagePenabung = () => {
         </Box>
       </Card>
 
-      <Card className="card-homepage-penabung text-left" sx={{ backgroundColor : '#26BAEE', color : 'white' }}>
+      <Card
+        className="card-homepage-penabung text-left"
+        sx={{ backgroundColor: "#26BAEE", color: "white" }}
+      >
         <Box className="col">
           <Box className="center row-box">
-            <Box className="col" sx={{ width : '15rem' }}>
-              <CardContent sx={{ flex: '1 0 auto' }}>
+            <Box className="col" sx={{ width: "15rem" }}>
+              <CardContent sx={{ flex: "1 0 auto" }}>
                 <Typography component="h3" className="text-bold">
                   Ikuti challenge minggu ini dan raih poin sebanyak mungkin!
                 </Typography>
@@ -95,7 +110,6 @@ const HomepagePenabung = () => {
           </Box>
         </Box>
       </Card>
-
     </Box>
   );
 };
