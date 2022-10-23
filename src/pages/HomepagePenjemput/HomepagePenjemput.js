@@ -1,14 +1,19 @@
 import { React, useEffect, useState } from "react";
+import {
+  Box,
+  Card,
+  CardActions,
+  CardContent,
+  Button,
+  Typography,
+  Stack,
+  TextField,
+  CardMedia,
+} from "@mui/material";
 import axios from "axios";
-import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
-import CardContent from "@mui/material/CardContent";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import Stack from "@mui/material/Stack";
-import TextField from "@mui/material/TextField";
-import Box from "@mui/material/Box";
+
 import Sampah from "./sampah.jpg";
+import Maps from "./maps.png";
 
 import "./HomepagePenjemput.css";
 
@@ -59,9 +64,6 @@ const HomepagePenjemput = () => {
   function changeAcceptState() {
     setAccepted(!accept);
   }
-
-  console.log(accept);
-
   return (
     <Box
       component="form"
@@ -80,6 +82,7 @@ const HomepagePenjemput = () => {
         </div>
         {!accept && (
           <div className="request card">
+            {console.log(dataRequest)}
             <Card sx={{ minWidth: 275 }} variant="outlined">
               <CardContent>
                 <Typography
@@ -139,14 +142,28 @@ const HomepagePenjemput = () => {
         )}
         {accept && (
           <div className="pickup card">
-            <Typography variant="h6" component="div" className="request-title" fontWeight={600}>
+            <Typography
+              variant="h6"
+              component="div"
+              className="request-title"
+              fontWeight={600}
+            >
               Pick-Up Point
             </Typography>
             <Card sx={{ minWidth: 275 }} variant="outlined">
-              <CardContent></CardContent>
+              <CardMedia
+                component="img"
+                height="140"
+                image={Maps}
+              />
             </Card>
             <br />
-            <Typography variant="h6" component="div" className="request-title" fontWeight={600}>
+            <Typography
+              variant="h6"
+              component="div"
+              className="request-title"
+              fontWeight={600}
+            >
               Informasi Sampah Kain
             </Typography>
             <Card sx={{ minWidth: 275 }} variant="outlined">
