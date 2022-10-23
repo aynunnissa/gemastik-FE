@@ -89,7 +89,14 @@ const InputDataPenukar = () => {
             </Box>
           </Box>
           <Stack mt={5} justifyContent="center">
-            <Button variant="contained">Konfirmasi Penukaran</Button>
+            <Button
+              variant="contained"
+              onClick={() => {
+                push("/mitra/penukaran-berhasil");
+              }}
+            >
+              Konfirmasi Penukaran
+            </Button>
           </Stack>
         </Grid>
       </Grid>
