@@ -1,0 +1,24 @@
+.penjemput{
+    color: white;
+}
+.header{
+    min-height: 12rem;
+    background-color: #26BAEE;
+    padding: 2rem;
+}
+.title{
+    font-size: 2.5rem;
+    font-weight: bold;
+}
+
+.request{
+    padding: 2rem;
+    margin-top: -5rem;
+}
+.pickup{
+    padding: 2rem;
+}
+.request-title{
+    margin-bottom: 1rem;
+}
+
