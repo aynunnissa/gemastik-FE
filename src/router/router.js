@@ -4,6 +4,7 @@ import Homepage from "../pages/Homepage";
 import InputDataPenukar from "../pages/Penukaran/InputDataPenukar";
 import ScanQRPenukar from "../pages/Penukaran/ScanQRPenukar";
 import Success from "../pages/Penukaran/Success";
+import HomepagePenabung from "../pages/HomepagePenabung/HomepagePenabung";
 
 const AllRoute = () => {
   return (
@@ -16,6 +17,7 @@ const AllRoute = () => {
           element={<InputDataPenukar />}
         />
         <Route path="/mitra/penukaran-berhasil" element={<Success />} />
+        <Route path="/penabung" element={<HomepagePenabung />} />
       </Routes>
     </BrowserRouter>
   );

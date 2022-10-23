@@ -1,0 +1,59 @@
+.banner{
+    background-color: #26BAEE;
+    max-height: 10rem;
+    color: white;
+    padding: 2rem 2rem 3rem 2rem;
+}
+
+h2{
+    font-size: 24px !important;
+}
+
+h3{
+    font-size: 16px !important;
+}
+
+.extra-bold{
+    font-weight: 800;
+}
+
+.text-bold{
+    font-weight: 700;
+}
+
+.semi-bold{
+    font-weight: 600;
+}
+
+.black{
+    font-weight: 9000;
+}
+
+.card-homepage-penabung{
+    display: flex;
+    margin: -2rem 2rem 4rem 2rem;
+    padding: 1rem 1rem 1rem 1rem;
+}
+
+.center{
+    justify-content: center;
+    align-items: center;
+}
+
+.card-media{
+    width: 95%;
+    height: 95%;
+}
+
+.button-ajukan{
+    width: 100% !important;
+}
+
+.row-box{
+    display: flex;
+    flex-direction: row;
+}
+
+.poin-text{
+    margin: 0.2rem 0 0 0.3rem ;
+}
