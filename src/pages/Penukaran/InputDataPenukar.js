@@ -9,12 +9,20 @@ import {
   Typography,
 } from "@mui/material";
 import { ArrowBack } from "@mui/icons-material";
+import { useNavigate } from "react-router-dom";
 
 const InputDataPenukar = () => {
+  const push = useNavigate();
+
   return (
     <>
       <Box display="flex" gap={4} px={3} py={4}>
-        <ArrowBack />
+        <ArrowBack
+          sx={{ cursor: "pointer" }}
+          onClick={() => {
+            push("/mitra/scan-qr-penukar");
+          }}
+        />
         <Typography component="h1" variant="h6" fontWeight={700}>
           Input Data Penukaran
         </Typography>

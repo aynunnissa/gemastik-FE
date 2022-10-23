@@ -14,6 +14,7 @@ import axios from "axios";
 
 import Sampah from "./sampah.jpg";
 import Maps from "./maps.png";
+import Iframe from "react-iframe";
 
 import "./HomepagePenjemput.css";
 
@@ -151,11 +152,13 @@ const HomepagePenjemput = () => {
               Pick-Up Point
             </Typography>
             <Card sx={{ minWidth: 275 }} variant="outlined">
-              <CardMedia
-                component="img"
-                height="140"
-                image={Maps}
-              />
+              <Iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.321071520351!2d106.78199931442838!3d-6.221325862663748!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f1847d6b7ca7%3A0xd629791658bc8285!2sMB%20TSHIRT%20PREMIUM!5e0!3m2!1sen!2sid!4v1666519134753!5m2!1sen!2sid"
+                width="400"
+                height="300"
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"
+              ></Iframe>
             </Card>
             <br />
             <Typography
