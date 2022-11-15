@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import Homepage from "../pages/Homepage";
+import OnBoarding from "../pages/OnBoarding";
 import HomepagePenjemput from "../pages/HomepagePenjemput/HomepagePenjemput";
 import InputDataPenukar from "../pages/Penukaran/InputDataPenukar";
 import ScanQRPenukar from "../pages/Penukaran/ScanQRPenukar";
@@ -10,6 +10,7 @@ import HomepagePenabung from "../pages/HomepagePenabung/HomepagePenabung";
 const AllRoute = () => {
   return (
     <Routes>
+      <Route path="/on-boarding" element={<OnBoarding />} />
       <Route path="/" element={<HomepagePenabung />} />
       <Route path="/penjemput" element={<HomepagePenjemput />} />
       <Route path="/mitra/scan-qr-penukar" element={<ScanQRPenukar />} />
