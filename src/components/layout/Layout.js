@@ -15,7 +15,7 @@ const Layout = ({ children }) => {
         <Box sx={{ minHeight: "90vh", backgroundColor: "#FFFFFF" }}>
           {children}
         </Box>
-        {path[1] !== "on-boarding" && (
+        {path[1] !== "on-boarding" && path[1] !== "auth" && (
           <Box
             sx={{
               position: "fixed",
