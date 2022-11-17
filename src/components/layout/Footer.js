@@ -37,11 +37,20 @@ const Footer = () => {
             push("/");
           }}
         />
-        <BottomNavigationAction label="Riwayat" icon={<LibraryBooksIcon />} />
+        <BottomNavigationAction
+          label="Riwayat"
+          icon={<LibraryBooksIcon />}
+          onClick={() => {
+            push("/user/history");
+          }}
+        />
         <BottomNavigationAction
           label="Riwayat"
           icon={<LibraryBooksIcon />}
           sx={{ opacity: 0, backgroundColor: "red" }}
+          onClick={() => {
+            push("/user/history");
+          }}
         />
         <Box
           position="absolute"
@@ -60,7 +69,13 @@ const Footer = () => {
         >
           <QrCodeScannerIcon sx={{ color: "white" }} fontSize="large" />
         </Box>
-        <BottomNavigationAction label="Akun" icon={<AccountCircleIcon />} />
+        <BottomNavigationAction
+          label="Akun"
+          onClick={() => {
+            push("/user/profile");
+          }}
+          icon={<AccountCircleIcon />}
+        />
         <BottomNavigationAction label="Logout" icon={<LogoutIcon />} />
         {/* <Link to="">
                 <img src={Beranda} alt="Daftarkan-toko" className="investor-card-menu" />
