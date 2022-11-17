@@ -9,7 +9,8 @@ import HomepagePenabung from "../pages/HomepagePenabung/HomepagePenabung";
 import Login from "../pages/Auth/Login";
 import Register from "../pages/Auth/Register";
 import Tracking from "../pages/Penukaran/Tracking";
-import History from "../pages/Penukaran/History";
+import History from "../pages/User/History";
+import Profile from "../pages/User/Profile";
 
 const AllRoute = () => {
   return (
@@ -27,6 +28,7 @@ const AllRoute = () => {
       <Route path="/mitra/penukaran-berhasil" element={<Success />} />
 
       <Route path="/user/history" element={<History />} />
+      <Route path="/user/profile" element={<Profile />} />
       {/* <Route path="/penabung" element={<HomepagePenabung />} /> */}
     </Routes>
   );
