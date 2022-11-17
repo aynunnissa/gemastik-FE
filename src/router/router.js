@@ -8,6 +8,7 @@ import Success from "../pages/Penukaran/Success";
 import HomepagePenabung from "../pages/HomepagePenabung/HomepagePenabung";
 import Login from "../pages/Auth/Login";
 import Register from "../pages/Auth/Register";
+import Tracking from "../pages/Penukaran/Tracking";
 
 const AllRoute = () => {
   return (
@@ -17,6 +18,7 @@ const AllRoute = () => {
       <Route path="/auth/register" element={<Register />} />
 
       <Route path="/on-boarding" element={<OnBoarding />} />
+      <Route path="/penukaran/tracking" element={<Tracking />} />
       <Route path="/" element={<HomepagePenabung />} />
       <Route path="/penjemput" element={<HomepagePenjemput />} />
       <Route path="/mitra/scan-qr-penukar" element={<ScanQRPenukar />} />
