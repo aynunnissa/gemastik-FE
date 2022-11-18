@@ -79,7 +79,6 @@ const Login = ({ login }) => {
       login(user);
       push("/");
     } else {
-      console.log("MASUK");
       toast.error("Gagal Login");
     }
     setIsSubmitting(false);

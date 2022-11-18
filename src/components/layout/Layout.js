@@ -14,6 +14,8 @@ const Layout = ({ children, auth }) => {
   useEffect(() => {
     if (!auth.isLoggedIn) {
       push("/auth/login");
+    } else if (auth.isLoggedIn && path[1] === "auth") {
+      push("/");
     }
   }, []);
 

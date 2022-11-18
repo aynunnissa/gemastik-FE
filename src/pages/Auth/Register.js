@@ -18,7 +18,9 @@ import classes from "./login.module.css";
 
 import useInput from "../../hooks/use-input";
 import RegisterImg from "../../images/Auth/register.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { client } from "../../lib/client";
+import { toast } from "react-toastify";
 
 const isNotEmpty = value => value.trim() !== "";
 const isEmail = value => value.includes("@");
@@ -27,6 +29,7 @@ const isValidPassword = value =>
   value.match(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/);
 
 const Register = () => {
+  const push = useNavigate();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [role, setRole] = useState("");
@@ -76,12 +79,48 @@ const Register = () => {
   } = useInput(isValidPassword);
 
   let isFormValid = false;
-  let passwordEqual = false;
+  let passwordEqual = true;
 
   if (passwordValue === passwordConfirmValue) {
     passwordEqual = true;
   } else {
     passwordEqual = false;
+  }
+
+  if (
+    phoneIsValid &&
+    fullNameIsValid &&
+    role !== "" &&
+    passwordIsValid &&
+    passwordConfirmIsValid &&
+    passwordEqual
+  ) {
+    isFormValid = true;
+  }
+
+  async function regisSubmitHandler(event) {
+    event.preventDefault();
+
+    setIsSubmitting(true);
+
+    if (!isFormValid) {
+      setIsSubmitting(false);
+      return;
+    }
+
+    const { data, status } = await client.post("/api/create-user", {
+      no_telp: phoneValue,
+      nama: fullNameValue,
+      peran: role,
+      password: passwordValue,
+    });
+    if (status === 201) {
+      toast.success("Registrasi akun berhasil");
+      push("/auth/login");
+    } else {
+      toast.error("Gagal Registrasi");
+    }
+    setIsSubmitting(false);
   }
 
   const handleMouseDownPassword = event => {
@@ -100,13 +139,13 @@ const Register = () => {
             Daftar Akun
           </Typography>
           <Box textAlign="center">
-            <img src={RegisterImg} width="50%" alt="Login page" />
+            <img src={RegisterImg} width="50%" alt="Register page" />
           </Box>
           <Box
             component="form"
             autoComplete="off"
             mt={3}
-            //   onSubmit={loginSubmitHandler}
+            onSubmit={regisSubmitHandler}
           >
             <Stack rowGap={3}>
               <TextField
@@ -149,8 +188,9 @@ const Register = () => {
                   label="Peran"
                   onChange={handleChangeRole}
                 >
-                  <MenuItem value={1}>Penabung</MenuItem>
-                  <MenuItem value={2}>Mitra</MenuItem>\
+                  <MenuItem value="Penabung">Penabung</MenuItem>
+                  <MenuItem value="Mitra">Mitra</MenuItem>
+                  <MenuItem value="Penjemput">Penjemput</MenuItem>
                 </Select>
               </FormControl>
               <TextField
@@ -220,16 +260,11 @@ const Register = () => {
                   Daftar
                 </Button>
               )}
-              {/* {isSubmitting && (
-                <LoadingButton
-                  loading
-                  loadingPosition="start"
-                  startIcon={<SaveIcon />}
-                  variant="outlined"
-                >
-                  Memproses
-                </LoadingButton>
-              )} */}
+              {isSubmitting && (
+                <Button variant="contained" disabled>
+                  Loading...
+                </Button>
+              )}
               <Typography
                 component="p"
                 variant="caption"
