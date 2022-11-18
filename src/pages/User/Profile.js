@@ -1,13 +1,37 @@
 import { Box, Paper, Typography } from "@mui/material";
 import QRCode from "react-qr-code";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import { client } from "../../lib/client";
+import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 const user = {
   idUser: "123",
   namaUser: "Aynun Nissa Setiawan",
 };
-
+// idPengguna
 const Profile = () => {
+  const [user, setUser] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
+
+  async function getUserData() {
+    const { data: userData, status } = await client.get("/api/resource");
+    if (status === 200) {
+      setUser(userData[0]);
+    } else {
+      toast.error("Gagal mengambil data pengguna");
+    }
+    setIsLoading(false);
+  }
+
+  useEffect(() => {
+    getUserData();
+  }, []);
+
+  if (isLoading) {
+    return "Loading...";
+  }
+
   return (
     <Box minHeight="90vh" bgcolor="#26BAEE" py={5} px={5}>
       <Paper>
@@ -29,16 +53,16 @@ const Profile = () => {
           </Box>
           <Box mt="30px" textAlign="center">
             <Typography component="p" variant="subtitle1" fontWeight={700}>
-              Aynun Nissa Setiawan
+              {user?.nama}
             </Typography>
             <Typography component="p" variant="subtitle2">
-              081261837712
+              {user?.noTelp}
             </Typography>
           </Box>
           <Box pt={3} pb={5} display="flex" justifyContent="center">
             <QRCode
               style={{ height: "auto", maxWidth: "100%", width: "60%" }}
-              value={JSON.stringify(user)}
+              value={user?.idPengguna}
               viewBox={`0 0 256 256`}
             />
           </Box>
