@@ -12,8 +12,43 @@ import "./HomepagePenabung.css";
 import Penjemputan from "./Penjemputan.svg";
 import TarikDana from "./TarikDanaSementara.svg";
 import Challenge from "./Challenge.svg";
+import { client } from "../../lib/client";
+import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 const HomepagePenabung = () => {
+  const [user, setUser] = useState({});
+  const [poin, setPoin] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
+
+  async function getUserData() {
+    const { data: userData, status } = await client.get("/api/resource");
+    if (status === 200) {
+      setUser(userData[0]);
+    } else {
+      toast.error("Gagal mengambil data pengguna");
+    }
+  }
+
+  async function getUserPoin() {
+    const { data: dataPoin, status } = await client.get("/api/poin-penabung");
+    if (status === 200) {
+      setPoin(dataPoin.poin);
+    } else {
+      toast.error("Gagal mengambil total poin");
+    }
+    setIsLoading(false);
+  }
+
+  useEffect(() => {
+    getUserData();
+    getUserPoin();
+  }, []);
+
+  if (isLoading) {
+    return "Loading...";
+  }
+
   return (
     <Box component="main" pb={2}>
       <Container fixed className="banner">
@@ -21,7 +56,7 @@ const HomepagePenabung = () => {
           CLOTHRASH
         </Typography>
         <Typography component="h2" className="semi-bold">
-          <b>Hello, Annisa</b>
+          <b>Hello, {user?.nama}</b>
         </Typography>
       </Container>
 
@@ -66,7 +101,7 @@ const HomepagePenabung = () => {
                 </Typography>
                 <Box className="row-box">
                   <Typography component="h2" className="black">
-                    500
+                    {poin}
                   </Typography>
                   <Typography component="p" className="poin-text">
                     poin
