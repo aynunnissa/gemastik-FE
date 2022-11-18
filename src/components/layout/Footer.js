@@ -19,7 +19,7 @@ import QrCodeScannerIcon from "@mui/icons-material/QrCodeScanner";
 import { connect } from "react-redux";
 import { logout } from "../../store/actions/action";
 
-const Footer = ({ logout }) => {
+const Footer = ({ logout, auth }) => {
   const [value, setValue] = React.useState(0);
   const push = useNavigate();
   return (
@@ -59,7 +59,11 @@ const Footer = ({ logout }) => {
           display="flex"
           onClick={() => {
             setValue(null);
-            push("/mitra/scan-qr-penukar");
+            if (auth.role === "Mitra") {
+              push("/mitra/scan-qr-penukar");
+            } else if (auth.role === "Penabung") {
+              push("/user/profile");
+            }
           }}
           sx={{
             backgroundColor: "#1976D2",
@@ -106,4 +110,10 @@ const Footer = ({ logout }) => {
   );
 };
 
-export default connect(null, { logout })(Footer);
+const mapStateToProps = state => {
+  return {
+    auth: state.auth,
+  };
+};
+
+export default connect(mapStateToProps, { logout })(Footer);

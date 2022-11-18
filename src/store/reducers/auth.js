@@ -2,6 +2,7 @@ import { LOGIN, LOGOUT, LOAD_USER } from "../actions/type";
 
 const initialState = {
   token: "",
+  role: "",
   isLoggedIn: false,
 };
 
@@ -11,12 +12,14 @@ const authReducer = (state = initialState, action) => {
       const storageData = localStorage.getItem("clotht");
       const user = JSON.parse(storageData);
       state.token = user.token;
+      state.role = user.role;
       state.isLoggedIn = true;
       return {
         ...state,
       };
     case LOGIN:
       state.token = action.user.token;
+      state.role = action.user.role;
       state.isLoggedIn = true;
 
       localStorage.setItem("clotht", JSON.stringify(action.user));
@@ -26,6 +29,7 @@ const authReducer = (state = initialState, action) => {
     case LOGOUT:
       state.token = "";
       state.isLoggedIn = false;
+      state.role = "";
       localStorage.removeItem("clotht");
       return {
         ...state,

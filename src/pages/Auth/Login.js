@@ -75,6 +75,7 @@ const Login = ({ login }) => {
       toast.success("Login berhasil");
       const user = {
         token: data.access,
+        role: "Penabung",
       };
       login(user);
       push("/");
