@@ -40,9 +40,6 @@ const steps = [
 ];
 
 const ColorlibStepIconRoot = styled("div")(({ theme, ownerState }) => ({
-  //   backgroundColor:
-  //     theme.palette.mode === "dark" ? theme.palette.grey[700] : "#ccc",
-  //   //   zIndex: 1,
   color: "#fff",
   width: 50,
   height: 50,

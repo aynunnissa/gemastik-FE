@@ -1,7 +1,7 @@
 import axios from "axios";
 import authHeader from "./auth-header";
 
-export const bashUrl = "http://127.0.0.1:5000";
+export const bashUrl = "http://127.0.0.1:8000";
 
 // Bisa ditambah params kalo butuh get request dengan params
 // source: https://axios-http.com/docs/req_config
@@ -14,6 +14,7 @@ export function client(url, { method, data }) {
     data: data,
   })
     .then(function (response) {
+      console.log(response);
       // Bisa liat di console isi responsenya apa aja
       // // console.log(response.data);
       // // console.log(response.status);
@@ -21,11 +22,12 @@ export function client(url, { method, data }) {
       // // console.log(response.headers);
       // // console.log(response.config);
       return {
-        data: response.data?.data,
+        data: response.data,
         status: response.status,
       };
     })
     .catch(function (error) {
+      console.log(error);
       if (error.response) {
         // The request was made and the server responded with a status code
         // that falls out of the range of 2xx

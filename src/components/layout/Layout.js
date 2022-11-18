@@ -2,11 +2,21 @@ import CssBaseline from "@mui/material/CssBaseline";
 import { Box, Container } from "@mui/material";
 import Footer from "./Footer";
 import Navbar from "./Navbar";
-import { useLocation } from "react-router-dom";
+import { connect } from "react-redux";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
-const Layout = ({ children }) => {
+const Layout = ({ children, auth }) => {
+  const push = useNavigate();
   const url = useLocation().pathname;
   const path = url.split("/");
+
+  useEffect(() => {
+    if (!auth.isLoggedIn) {
+      push("/auth/login");
+    }
+  }, []);
+
   return (
     <>
       <CssBaseline />
@@ -36,4 +46,10 @@ const Layout = ({ children }) => {
   );
 };
 
-export default Layout;
+const mapStateToProps = state => {
+  return {
+    auth: state.auth,
+  };
+};
+
+export default connect(mapStateToProps, {})(Layout);

@@ -216,11 +216,7 @@ const Register = () => {
                 }}
               />
               {!isSubmitting && (
-                <Button
-                  variant="contained"
-                  type="submit"
-                  // sx={{ backgroundColor: `${theme.palette.primary.dark}` }}
-                >
+                <Button variant="contained" type="submit">
                   Daftar
                 </Button>
               )}

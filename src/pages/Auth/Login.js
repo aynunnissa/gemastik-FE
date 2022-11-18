@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { connect } from "react-redux";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import {
   Box,
@@ -15,11 +16,17 @@ import classes from "./login.module.css";
 
 import useInput from "../../hooks/use-input";
 import LoginImg from "../../images/Auth/login.png";
-import { Link } from "react-router-dom";
+import { client } from "../../lib/client";
+import { login } from "../../store/actions/action";
+
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const isNotEmpty = value => value.trim() !== "";
+const isNumber = value => !Number.isNaN(Number(value));
 
-const Login = () => {
+const Login = ({ login }) => {
+  const push = useNavigate();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => {
@@ -27,13 +34,13 @@ const Login = () => {
   };
 
   const {
-    value: emailValue,
-    isValid: emailIsValid,
-    hasError: emailHasError,
-    valueChangeHandler: emailChangeHandler,
-    inputBlurHandler: emailBlurHandler,
-    reset: resetEmail,
-  } = useInput(isNotEmpty);
+    value: phoneValue,
+    isValid: phoneIsValid,
+    hasError: phoneHasError,
+    valueChangeHandler: phoneChangeHandler,
+    inputBlurHandler: phoneBlurHandler,
+    reset: resetPhone,
+  } = useInput(isNumber);
 
   const {
     value: passwordValue,
@@ -46,6 +53,38 @@ const Login = () => {
 
   let isFormValid = false;
 
+  if (passwordIsValid && phoneIsValid) {
+    isFormValid = true;
+  }
+
+  async function loginSubmitHandler(event) {
+    event.preventDefault();
+
+    setIsSubmitting(true);
+
+    if (!isFormValid) {
+      setIsSubmitting(false);
+      return;
+    }
+
+    const { data, status } = await client.post("/api/token", {
+      no_telp: phoneValue,
+      password: passwordValue,
+    });
+    if (status === 200) {
+      toast.success("Login berhasil");
+      const user = {
+        token: data.access,
+      };
+      login(user);
+      push("/");
+    } else {
+      console.log("MASUK");
+      toast.error("Gagal Login");
+    }
+    setIsSubmitting(false);
+  }
+
   const handleMouseDownPassword = event => {
     event.preventDefault();
   };
@@ -56,8 +95,8 @@ const Login = () => {
           <Typography
             variant="h4"
             fontWeight={500}
-            color="white"
             component="h1"
+            sx={{ color: "white" }}
           >
             Masuk{" "}
           </Typography>
@@ -68,21 +107,23 @@ const Login = () => {
             component="form"
             autoComplete="off"
             mt={3}
-            //   onSubmit={loginSubmitHandler}
+            onSubmit={loginSubmitHandler}
           >
             <Stack rowGap={3}>
               <TextField
-                id="email"
-                label="Email"
+                id="phone"
+                label="No Telepon"
                 variant="outlined"
                 required
-                value={emailValue}
-                autoComplete="chrome-off"
-                onChange={emailChangeHandler}
-                onBlur={emailBlurHandler}
-                error={emailHasError}
-                helperText={emailHasError && "Email tidak boleh kosong"}
                 size="small"
+                value={phoneValue}
+                onChange={phoneChangeHandler}
+                onBlur={phoneBlurHandler}
+                error={phoneHasError}
+                helperText={
+                  phoneHasError &&
+                  "No. HP tidak boleh kosong dan harus berupa angka"
+                }
               />
               <TextField
                 id="password"
@@ -117,24 +158,15 @@ const Login = () => {
                 }}
               />
               {!isSubmitting && (
-                <Button
-                  variant="contained"
-                  type="submit"
-                  // sx={{ backgroundColor: `${theme.palette.primary.dark}` }}
-                >
+                <Button variant="contained" type="submit">
                   Login
                 </Button>
               )}
-              {/* {isSubmitting && (
-                <LoadingButton
-                  loading
-                  loadingPosition="start"
-                  startIcon={<SaveIcon />}
-                  variant="outlined"
-                >
-                  Memproses
-                </LoadingButton>
-              )} */}
+              {isSubmitting && (
+                <Button disabled variant="contained" sx={{ color: "white" }}>
+                  Loading...
+                </Button>
+              )}
               <Typography component="p" variant="caption" textAlign="center">
                 Belum memiliki akun?{" "}
                 <Link to="/auth/register" style={{ color: "#26BAEE" }}>
@@ -149,4 +181,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default connect(null, { login })(Login);
