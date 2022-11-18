@@ -17,6 +17,7 @@ import Maps from "./maps.png";
 import Iframe from "react-iframe";
 
 import "./HomepagePenjemput.css";
+import { toast } from "react-toastify";
 
 const HomepagePenjemput = () => {
   const [dataRequest, setDataRequest] = useState([]);
@@ -29,8 +30,8 @@ const HomepagePenjemput = () => {
       );
       setDataRequest(requestData.data);
     } catch (err) {
-      console.log(err);
-      alert("Terdapat kesalahan saat fetch data");
+      // console.log(err);
+      toast.error("Terdapat kesalahan saat fetch data");
     }
   };
 
@@ -83,7 +84,6 @@ const HomepagePenjemput = () => {
         </div>
         {!accept && (
           <div className="request card">
-            {console.log(dataRequest)}
             <Card sx={{ minWidth: 275 }} variant="outlined">
               <CardContent>
                 <Typography
@@ -95,7 +95,7 @@ const HomepagePenjemput = () => {
                   Request Baru
                 </Typography>
                 <div>
-                  {processedData.map((item) => (
+                  {processedData.map(item => (
                     <TextField
                       disabled
                       label={item.name}
@@ -172,7 +172,7 @@ const HomepagePenjemput = () => {
             <Card sx={{ minWidth: 275 }} variant="outlined">
               <CardContent>
                 <div>
-                  {processedData.map((item) => (
+                  {processedData.map(item => (
                     <TextField
                       disabled
                       label={item.name}

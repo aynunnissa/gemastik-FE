@@ -17,7 +17,7 @@ import classes from "./login.module.css";
 import useInput from "../../hooks/use-input";
 import LoginImg from "../../images/Auth/login.png";
 import { client } from "../../lib/client";
-import { login } from "../../store/actions/action";
+import { login, loadUserInfo, loadUser } from "../../store/actions/action";
 
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -25,7 +25,7 @@ import { toast } from "react-toastify";
 const isNotEmpty = value => value.trim() !== "";
 const isNumber = value => !Number.isNaN(Number(value));
 
-const Login = ({ login }) => {
+const Login = ({ login, auth, loadUserInfo }) => {
   const push = useNavigate();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -57,6 +57,22 @@ const Login = ({ login }) => {
     isFormValid = true;
   }
 
+  async function getUserData() {
+    const { data: userData, status } = await client.get("/api/resource");
+    if (status === 200) {
+      toast.success("Login berhasil");
+      const user = {
+        role: userData[0].peran,
+        phone: userData[0].noTelp,
+      };
+      loadUserInfo(user);
+      push("/");
+    } else {
+      toast.error("Gagal mengambil data pengguna");
+    }
+    setIsSubmitting(false);
+  }
+
   async function loginSubmitHandler(event) {
     event.preventDefault();
 
@@ -72,17 +88,16 @@ const Login = ({ login }) => {
       password: passwordValue,
     });
     if (status === 200) {
-      toast.success("Login berhasil");
       const user = {
         token: data.access,
-        role: "Penabung",
+        // role: "Penabung"
       };
       login(user);
-      push("/");
+      getUserData();
     } else {
       toast.error("Gagal Login");
+      setIsSubmitting(false);
     }
-    setIsSubmitting(false);
   }
 
   const handleMouseDownPassword = event => {
@@ -181,4 +196,10 @@ const Login = ({ login }) => {
   );
 };
 
-export default connect(null, { login })(Login);
+const mapStateToProps = state => {
+  return {
+    auth: state.auth,
+  };
+};
+
+export default connect(mapStateToProps, { login, loadUserInfo })(Login);

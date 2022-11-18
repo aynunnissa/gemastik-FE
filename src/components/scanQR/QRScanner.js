@@ -9,7 +9,7 @@ import styles from "./QRScanner.module.css";
 
 const QRScanner = () => {
   const push = useNavigate();
-  const [result, setResult] = useState("No result");
+  const [result, setResult] = useState("");
 
   const handleError = err => {
     console.err(err);
@@ -18,7 +18,9 @@ const QRScanner = () => {
   const handleScan = result => {
     if (result) {
       setResult(result);
-      push("/mitra/input-data-penukar");
+      if (result !== "") {
+        push(`/mitra/input-data-penukar/${result}`);
+      }
     }
   };
 

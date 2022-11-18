@@ -5,10 +5,10 @@ import SuccessImage from "../../images/success.png";
 const Success = () => {
   const push = useNavigate();
   return (
-    <Box py={5} mx={4}>
+    <Box pb={5} pt={4} mx={4}>
       <Box textAlign="center">
         <img
-          width="80%"
+          width="45%"
           height="auto"
           src={SuccessImage}
           alt="Penukaran berhasil"
@@ -23,12 +23,12 @@ const Success = () => {
       >
         Penukaran Sampah Kain Berhasil
       </Typography>
-      <Typography textAlign="center" component="p">
+      <Typography textAlign="center" component="p" variant="body2">
         Berhasil melakukan konfirmasi penukaran sampah kain. Pastikan menyimpan
         sampah kain dengan baik dan lakukan request penjemputan jika sudah
         memenuhi minimum berat sampah.
       </Typography>
-      <Stack mt={5} justifyContent="center">
+      <Stack mt={3} justifyContent="center">
         <Button
           variant="contained"
           onClick={() => {

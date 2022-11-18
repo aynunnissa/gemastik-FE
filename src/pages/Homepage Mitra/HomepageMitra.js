@@ -10,15 +10,16 @@ import {
 } from "@mui/material";
 import "./HomepagePenabung.css";
 import Penjemputan from "./Penjemputan.svg";
+import Cloth from "../../images/Mitra/cloth.png";
 import TarikDana from "./TarikDanaSementara.svg";
-import Challenge from "./Challenge.svg";
 import { client } from "../../lib/client";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
-const HomepagePenabung = () => {
+const HomepageMitra = () => {
   const [user, setUser] = useState({});
   const [poin, setPoin] = useState(0);
+  const [koleksi, setKoleksi] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
 
   async function getUserData() {
@@ -37,12 +38,24 @@ const HomepagePenabung = () => {
     } else {
       toast.error("Gagal mengambil total poin");
     }
+  }
+
+  async function getUserKoleksi() {
+    const { data: dataKoleksi, status } = await client.get(
+      "/api/koleksi-mitra"
+    );
+    if (status === 200) {
+      setKoleksi(dataKoleksi[0]?.totalBerat);
+    } else {
+      toast.error("Gagal mengambil berat kain terkumpul");
+    }
     setIsLoading(false);
   }
 
   useEffect(() => {
     getUserData();
     getUserPoin();
+    getUserKoleksi();
   }, []);
 
   if (isLoading) {
@@ -121,25 +134,26 @@ const HomepagePenabung = () => {
         </Box>
       </Card>
 
-      <Card
-        className="card-homepage-penabung text-left"
-        sx={{ backgroundColor: "#26BAEE", color: "white" }}
-      >
+      <Card className="card-homepage-penabung text-left">
         <Box className="col">
           <Box className="center row-box">
             <Box className="col" sx={{ width: "15rem" }}>
               <CardContent sx={{ flex: "1 0 auto" }}>
-                <Typography component="h3" className="text-bold">
-                  Ikuti challenge minggu ini dan raih poin sebanyak mungkin!
+                <Typography component="h2" className="text-bold">
+                  Sampah Terkumpul
+                </Typography>
+                <Typography component="h3">
+                  <strong>{koleksi}</strong>
+                  <span style={{ color: "#26BAEE" }}>/</span>10Kg
                 </Typography>
               </CardContent>
             </Box>
             <Box className="col">
               <CardMedia
                 component="img"
-                className="card-media"
-                image={Challenge}
-                alt="Challenge"
+                className="card-media2"
+                image={Cloth}
+                alt="Penjemputan"
               />
             </Box>
           </Box>
@@ -149,4 +163,4 @@ const HomepagePenabung = () => {
   );
 };
 
-export default HomepagePenabung;
+export default HomepageMitra;

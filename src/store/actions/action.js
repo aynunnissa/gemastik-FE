@@ -15,3 +15,10 @@ export const logout = () => ({
 export const loadUser = () => ({
   type: types.LOAD_USER,
 });
+
+export const loadUserInfo = user => dispatch => {
+  dispatch({
+    type: types.LOAD_USER_INFO,
+    user,
+  });
+};

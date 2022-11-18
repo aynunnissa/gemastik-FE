@@ -13,7 +13,6 @@ const History = () => {
       "/api/list-penukaran"
     );
     if (status === 200) {
-      console.log(dataPenukaran);
       setListPenukaran(dataPenukaran);
     } else {
       toast.error("Gagal mengambil data penukaran");

@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 
 import OnBoarding from "../pages/OnBoarding";
 import HomepagePenjemput from "../pages/HomepagePenjemput/HomepagePenjemput";
@@ -11,11 +11,22 @@ import Register from "../pages/Auth/Register";
 import Tracking from "../pages/Penukaran/Tracking";
 import History from "../pages/User/History";
 import Profile from "../pages/User/Profile";
+import { connect } from "react-redux";
+import HomepageMitra from "../pages/Homepage Mitra/HomepageMitra";
 
-const AllRoute = () => {
+const AllRoute = ({ auth }) => {
   return (
     <Routes>
-      <Route path="/" element={<HomepagePenabung />} />
+      <Route
+        path="/"
+        element={
+          auth.role === "Penabung" ? (
+            <HomepagePenabung />
+          ) : (
+            auth.role === "Mitra" && <HomepageMitra />
+          )
+        }
+      />
 
       {/* Authentication */}
       <Route path="/auth/login" element={<Login />} />
@@ -26,7 +37,10 @@ const AllRoute = () => {
 
       <Route path="/penjemput" element={<HomepagePenjemput />} />
       <Route path="/mitra/scan-qr-penukar" element={<ScanQRPenukar />} />
-      <Route path="/mitra/input-data-penukar" element={<InputDataPenukar />} />
+      <Route
+        path="/mitra/input-data-penukar/:idPengguna"
+        element={<InputDataPenukar />}
+      />
       <Route path="/mitra/penukaran-berhasil" element={<Success />} />
 
       <Route path="/user/history" element={<History />} />
@@ -36,4 +50,10 @@ const AllRoute = () => {
   );
 };
 
-export default AllRoute;
+const mapStateToProps = state => {
+  return {
+    auth: state.auth,
+  };
+};
+
+export default connect(mapStateToProps, {})(AllRoute);

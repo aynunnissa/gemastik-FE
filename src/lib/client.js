@@ -5,16 +5,16 @@ export const bashUrl = "http://127.0.0.1:8000";
 
 // Bisa ditambah params kalo butuh get request dengan params
 // source: https://axios-http.com/docs/req_config
-export function client(url, { method, data }) {
+export function client(url, { method, data }, config, params) {
   // console.log({ ...config, ...authHeader() });
   return axios({
     method: method,
     url: `${bashUrl}${url}`,
-    headers: { ...authHeader() }, // headers ini perlu untuk ngirim token user (kalo ada)
+    headers: { ...config, ...authHeader() }, // headers ini perlu untuk ngirim token user (kalo ada)
     data: data,
+    params: { ...params },
   })
     .then(function (response) {
-      console.log(response);
       // Bisa liat di console isi responsenya apa aja
       // // console.log(response.data);
       // // console.log(response.status);
@@ -27,7 +27,6 @@ export function client(url, { method, data }) {
       };
     })
     .catch(function (error) {
-      console.log(error);
       if (error.response) {
         // The request was made and the server responded with a status code
         // that falls out of the range of 2xx
@@ -58,7 +57,12 @@ export function client(url, { method, data }) {
     });
 }
 // ini bisa ditambah kalo perlu, contoh cara aksesnya bisa diliat di file auth-context.js
-client.get = (url, data) => client(url, { method: "GET", data: data });
-client.delete = (url, data) => client(url, { method: "DELETE", data: data });
-client.post = (url, data) => client(url, { method: "POST", data: data });
-client.put = (url, data) => client(url, { method: "PUT", data: data });
+client.get = (url, data) => client(url, { method: "GET", data: data }, {}, {});
+client.delete = (url, data) =>
+  client(url, { method: "DELETE", data: data }, {}, {});
+client.post = (url, data) =>
+  client(url, { method: "POST", data: data }, {}, {});
+client.put = (url, data) => client(url, { method: "PUT", data: data }, {}, {});
+
+client.getParams = (url, data) =>
+  client(url, { method: "GET", data: data }, {}, data);

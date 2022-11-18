@@ -9,10 +9,73 @@ import {
   Typography,
 } from "@mui/material";
 import { ArrowBack } from "@mui/icons-material";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { client } from "../../lib/client";
+import { toast } from "react-toastify";
+import moment from "moment";
+import { connect } from "react-redux";
 
-const InputDataPenukar = () => {
+const InputDataPenukar = ({ auth }) => {
   const push = useNavigate();
+  const { idPengguna } = useParams();
+  const [penukar, setPenukar] = useState({});
+  const [totalBerat, setTotalBerat] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleBeratChange = e => {
+    setTotalBerat(e.target.value);
+  };
+
+  async function getUserData() {
+    const { data: userData, status } = await client.get(
+      `/api/resource/${idPengguna}`
+    );
+    if (status === 200) {
+      setPenukar(userData[0]);
+    } else {
+      toast.error("Gagal mengambil data penukar");
+    }
+    setIsLoading(false);
+  }
+
+  async function submitPenukaran() {
+    setIsSubmitting(true);
+
+    if (totalBerat <= 0) {
+      toast.error("Berat kain harus lebih dari 0");
+      setIsSubmitting(false);
+      return;
+    }
+
+    if (penukar && totalBerat > 0) {
+      const { data, status } = await client.post(
+        `/api/create-penukaran/${idPengguna}`,
+        {
+          berat: totalBerat,
+          penerima: auth.phone,
+        }
+      );
+      if (status === 201) {
+        push("/mitra/penukaran-berhasil");
+      } else {
+        toast.error("Gagal Login");
+      }
+    }
+
+    setIsSubmitting(false);
+  }
+
+  useEffect(() => {
+    if (idPengguna !== "") {
+      getUserData();
+    }
+  }, []);
+
+  if (isLoading) {
+    return "Loading...";
+  }
 
   return (
     <>
@@ -30,8 +93,9 @@ const InputDataPenukar = () => {
       <Grid container justifyContent="center">
         <Grid item xs={10}>
           <Box
-            mt={5}
-            p={5}
+            mt={3}
+            px={5}
+            py={4}
             sx={{
               border: "1px solid rgba(0, 0, 0, 0.08)",
               boxShadow: "0px 2px 2px rgba(0, 0, 0, 0.25)",
@@ -52,14 +116,15 @@ const InputDataPenukar = () => {
               color="#5E5E5E"
               textAlign="center"
             >
-              Sabtu, 22 Oktober 2022 20:25
+              {moment().format("dddd, DD MMMM YYYY")}
+              {/* Sabtu, 22 Oktober 2022 20:25 */}
             </Typography>
             <Box display="flex" mt={4} justifyContent="space-between">
               <Typography component="p" variant="body2" fontWeight={600}>
                 Penukar
               </Typography>
               <Typography component="p" variant="body2" textAlign="right">
-                Aynun Nissa Setiawan
+                {penukar?.nama}
               </Typography>
             </Box>
             <Box display="flex" mb={3} justifyContent="space-between">
@@ -67,7 +132,7 @@ const InputDataPenukar = () => {
                 ID Penukar
               </Typography>
               <Typography component="p" variant="body2" textAlign="right">
-                CLTR190762212
+                {idPengguna}
               </Typography>
             </Box>
             <Divider />
@@ -81,6 +146,8 @@ const InputDataPenukar = () => {
                   variant="outlined"
                   size="small"
                   type="number"
+                  value={totalBerat}
+                  onChange={e => handleBeratChange(e)}
                 />
                 <Typography component="p" variant="subtitle1" ml={1}>
                   Kg
@@ -88,15 +155,17 @@ const InputDataPenukar = () => {
               </Box>
             </Box>
           </Box>
-          <Stack mt={5} justifyContent="center">
-            <Button
-              variant="contained"
-              onClick={() => {
-                push("/mitra/penukaran-berhasil");
-              }}
-            >
-              Konfirmasi Penukaran
-            </Button>
+          <Stack mb={6} mt={3} justifyContent="center">
+            {!isSubmitting && (
+              <Button variant="contained" onClick={submitPenukaran}>
+                Konfirmasi Penukaran
+              </Button>
+            )}
+            {isSubmitting && (
+              <Button variant="contained" disabled>
+                Loading...
+              </Button>
+            )}
           </Stack>
         </Grid>
       </Grid>
@@ -104,4 +173,10 @@ const InputDataPenukar = () => {
   );
 };
 
-export default InputDataPenukar;
+const mapStateToProps = state => {
+  return {
+    auth: state.auth,
+  };
+};
+
+export default connect(mapStateToProps, {})(InputDataPenukar);
