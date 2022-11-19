@@ -66,3 +66,13 @@ client.put = (url, data) => client(url, { method: "PUT", data: data }, {}, {});
 
 client.getParams = (url, data) =>
   client(url, { method: "GET", data: data }, {}, data);
+
+client.postFile = (url, data) =>
+  client(
+    url,
+    { method: "POST", data: data },
+    {
+      "Content-Type": "multipart/form-data",
+    },
+    {}
+  );
