@@ -27,28 +27,32 @@ const Layout = ({ children, auth }) => {
         <Box sx={{ minHeight: "90vh", backgroundColor: "#FFFFFF" }}>
           {children}
         </Box>
-        {path[1] !== "on-boarding" && path[1] !== "auth" && (
-          <Box
-            sx={{
-              position: "fixed",
-              bottom: 0,
-              left: 0,
-              right: 0,
-              display: "flex",
-              justifyContent: "center",
-            }}
-          >
-            <Container maxWidth="sm">
-              <Footer />
-            </Container>
-          </Box>
-        )}
+        {path[1] !== "on-boarding" &&
+          path[1] !== "auth" &&
+          path[1] !== "request-penjemputan" &&
+          path[1] !== "form-penjemputan" &&
+          path[1] !== "foto-sampah" && (
+            <Box
+              sx={{
+                position: "fixed",
+                bottom: 0,
+                left: 0,
+                right: 0,
+                display: "flex",
+                justifyContent: "center",
+              }}
+            >
+              <Container maxWidth="sm">
+                <Footer />
+              </Container>
+            </Box>
+          )}
       </Container>
     </>
   );
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     auth: state.auth,
   };

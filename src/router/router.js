@@ -6,6 +6,8 @@ import InputDataPenukar from "../pages/Penukaran/InputDataPenukar";
 import ScanQRPenukar from "../pages/Penukaran/ScanQRPenukar";
 import Success from "../pages/Penukaran/Success";
 import HomepagePenabung from "../pages/HomepagePenabung/HomepagePenabung";
+import RequestPenjemputan from "../pages/RequestPenjemputan/RequestPenjemputan";
+import PenjemputanForm from "../pages/RequestPenjemputan/PenjemputanForm";
 import Login from "../pages/Auth/Login";
 import Register from "../pages/Auth/Register";
 import Tracking from "../pages/Penukaran/Tracking";
@@ -13,6 +15,7 @@ import History from "../pages/User/History";
 import Profile from "../pages/User/Profile";
 import { connect } from "react-redux";
 import HomepageMitra from "../pages/Homepage Mitra/HomepageMitra";
+import RequestSuccess from "../pages/RequestSuccess/RequestSuccess";
 
 const AllRoute = ({ auth }) => {
   return (
@@ -22,8 +25,10 @@ const AllRoute = ({ auth }) => {
         element={
           auth.role === "Penabung" ? (
             <HomepagePenabung />
+          ) : auth.role === "Mitra" ? (
+            <HomepageMitra />
           ) : (
-            auth.role === "Mitra" && <HomepageMitra />
+            <HomepagePenjemput />
           )
         }
       />
@@ -35,22 +40,22 @@ const AllRoute = ({ auth }) => {
       <Route path="/on-boarding" element={<OnBoarding />} />
       <Route path="/penukaran/tracking" element={<Tracking />} />
 
-      <Route path="/penjemput" element={<HomepagePenjemput />} />
       <Route path="/mitra/scan-qr-penukar" element={<ScanQRPenukar />} />
       <Route
         path="/mitra/input-data-penukar/:idPengguna"
         element={<InputDataPenukar />}
       />
       <Route path="/mitra/penukaran-berhasil" element={<Success />} />
-
+      <Route path="/request-penjemputan" element={<RequestPenjemputan />} />
+      <Route path="/form-penjemputan" element={<PenjemputanForm />} />
       <Route path="/user/history" element={<History />} />
       <Route path="/user/profile" element={<Profile />} />
-      {/* <Route path="/penabung" element={<HomepagePenabung />} /> */}
+      <Route path="/request-sucess" element={<RequestSuccess />} />
     </Routes>
   );
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     auth: state.auth,
   };

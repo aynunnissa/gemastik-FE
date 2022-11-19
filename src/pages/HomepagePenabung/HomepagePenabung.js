@@ -12,6 +12,7 @@ import "./HomepagePenabung.css";
 import Penjemputan from "./Penjemputan.svg";
 import TarikDana from "./TarikDanaSementara.svg";
 import Challenge from "./Challenge.svg";
+import { Link } from "react-router-dom";
 import { client } from "../../lib/client";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
@@ -84,9 +85,11 @@ const HomepagePenabung = () => {
             </Box>
           </Box>
           <Box className="col">
-            <Button variant="contained" className="button-ajukan">
-              Ajukan Pejemputan
-            </Button>
+            <Link to="/request-penjemputan">
+              <Button variant="contained" className="button-ajukan">
+                Ajukan Pejemputan
+              </Button>
+            </Link>
           </Box>
         </Box>
       </Card>

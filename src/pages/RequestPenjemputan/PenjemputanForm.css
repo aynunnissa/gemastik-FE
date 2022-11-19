@@ -1,0 +1,25 @@
+.form-penjemputan-container {
+  padding: 30px;
+}
+
+.form-penjemputan-button {
+  margin-top: 30px;
+  margin-bottom: 80px;
+}
+
+.unselectable {
+  user-drag: none;
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-drag: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+}
+
+
+.button-foto{
+  margin-top: -120px;
+  position: absolute;
+  z-index: 99;
+  margin-left: 40%;
+}

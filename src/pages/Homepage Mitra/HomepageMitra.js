@@ -15,6 +15,7 @@ import TarikDana from "./TarikDanaSementara.svg";
 import { client } from "../../lib/client";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import { useLocation, useNavigate, Link } from "react-router-dom";
 
 const HomepageMitra = () => {
   const [user, setUser] = useState({});
@@ -97,9 +98,11 @@ const HomepageMitra = () => {
             </Box>
           </Box>
           <Box className="col">
-            <Button variant="contained" className="button-ajukan">
-              Ajukan Pejemputan
-            </Button>
+            <Link to="/request-penjemputan">
+              <Button variant="contained" className="button-ajukan">
+                Ajukan Pejemputan
+              </Button>
+            </Link>
           </Box>
         </Box>
       </Card>
