@@ -66,6 +66,7 @@ const Login = ({ login, auth, loadUserInfo }) => {
         phone: userData[0].noTelp,
       };
       loadUserInfo(user);
+      push("/");
     } else {
       toast.error("Gagal mengambil data pengguna");
     }
@@ -112,7 +113,7 @@ const Login = ({ login, auth, loadUserInfo }) => {
             component="h1"
             sx={{ color: "white" }}
           >
-            Masuk
+            Masuk{" "}
           </Typography>
           <Box textAlign="center">
             <img src={LoginImg} width="50%" alt="Login page" />

@@ -8,7 +8,8 @@ import "./Map.css";
 import { Box } from "@mui/material";
 import CardMap from "./CardMap";
 
-mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_KEY;
+mapboxgl.accessToken =
+  "pk.eyJ1IjoiYWxmbm1zIiwiYSI6ImNsYWxrdjIwdzA2dmEzbnBlZDg4MjhseHEifQ.xEaEAB-r-ISe7YIkuvRpaA";
 
 const Map = () => {
   const mapContainerRef = useRef(null);

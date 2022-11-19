@@ -21,14 +21,14 @@ import Webcam from "react-webcam";
 import FotoButton from "./button.png";
 import useInput from "../../hooks/use-input";
 
-const isNotEmpty = (value) => value.trim() !== "";
+const isNotEmpty = value => value.trim() !== "";
 
 const PenjemputanForm = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
   const { address, lat, long } = location.state;
-  let urlImage = `https://api.mapbox.com/styles/v1/mapbox/streets-v11/static/pin-l+EA4335(${long},${lat})/${long},${lat},14/360x220?access_token=${process.env.REACT_APP_MAPBOX_KEY}`;
+  let urlImage = `https://api.mapbox.com/styles/v1/mapbox/streets-v11/static/pin-l+EA4335(${long},${lat})/${long},${lat},14/360x220?access_token=pk.eyJ1IjoiYWxmbm1zIiwiYSI6ImNsYWxrdjIwdzA2dmEzbnBlZDg4MjhseHEifQ.xEaEAB-r-ISe7YIkuvRpaA`;
 
   const [user, setUser] = useState({});
   const [picture, setPicture] = useState("");
@@ -45,10 +45,11 @@ const PenjemputanForm = () => {
     facingMode: "environment",
   };
   const webcamRef = React.useRef(null);
-  const capture = React.useCallback(() => {
+  const capture = () => {
     const pictureSrc = webcamRef.current.getScreenshot();
     setPicture(pictureSrc);
-  });
+    handleClose();
+  };
 
   const style = {
     position: "absolute",
@@ -86,6 +87,7 @@ const PenjemputanForm = () => {
   }
 
   async function requestSubmitHandler(event) {
+    setIsSubmitting(true);
     event.preventDefault();
     if (!isFormValid || beratValue < 10) {
       setIsSubmitting(false);
@@ -110,6 +112,7 @@ const PenjemputanForm = () => {
       toast.error("Gagal Membuat Request");
       setIsSubmitting(false);
     }
+    setIsSubmitting(false);
   }
 
   useEffect(() => {
@@ -205,8 +208,7 @@ const PenjemputanForm = () => {
                   onBlur={beratBlurHandler}
                   error={beratHasError}
                   helperText={
-                    beratHasError &&
-                    "Berat sampah tidak boleh kosong"
+                    beratHasError && "Berat sampah tidak boleh kosong"
                   }
                   fullWidth
                 />
@@ -253,9 +255,7 @@ const PenjemputanForm = () => {
                     </Button>
                   )}
                   {isSubmitting && (
-                    <Button variant="contained" type="submit">
-                      Loading...{" "}
-                    </Button>
+                    <Button variant="contained">Loading... </Button>
                   )}
                 </Grid>
                 <Grid item xs={12}>
@@ -277,7 +277,7 @@ const PenjemputanForm = () => {
         <Box sx={style}>
           <div className="foto-container">
             <div class="box">
-              {picture == "" ? (
+              {picture === "" ? (
                 <Webcam
                   audio={false}
                   ref={webcamRef}
@@ -290,7 +290,7 @@ const PenjemputanForm = () => {
             </div>
             <div class="box stack-top">
               <div
-                onClick={(e) => {
+                onClick={e => {
                   e.preventDefault();
                   capture();
                 }}
