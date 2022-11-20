@@ -16,6 +16,7 @@ import Profile from "../pages/User/Profile";
 import { connect } from "react-redux";
 import HomepageMitra from "../pages/Homepage Mitra/HomepageMitra";
 import RequestSuccess from "../pages/RequestSuccess/RequestSuccess";
+import PersebaranMitra from "../pages/PersebaranMitra";
 
 const AllRoute = ({ auth }) => {
   return (
@@ -40,6 +41,8 @@ const AllRoute = ({ auth }) => {
       <Route path="/on-boarding" element={<OnBoarding />} />
       <Route path="/penukaran/tracking" element={<Tracking />} />
 
+      <Route path="/persebaran/mitra" element={<PersebaranMitra />} />
+
       <Route path="/mitra/scan-qr-penukar" element={<ScanQRPenukar />} />
       <Route
         path="/mitra/input-data-penukar/:idPengguna"
@@ -55,7 +58,7 @@ const AllRoute = ({ auth }) => {
   );
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     auth: state.auth,
   };
