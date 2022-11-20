@@ -36,9 +36,19 @@ const PenjemputanForm = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  function sleep(ms) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  }
+  function handleOpen() {
+    setOpen(true);
+  }
 
+  async function captureit() {
+    capture();
+    await sleep(800);
+    handleClose();
+  }
+  const handleClose = () => setOpen(false);
   const videoConstraints = {
     width: 465,
     height: 700,
@@ -67,7 +77,6 @@ const PenjemputanForm = () => {
     hasError: beratHasError,
     valueChangeHandler: beratChangeHandler,
     inputBlurHandler: beratBlurHandler,
-    reset: resetBerat,
   } = useInput(isNotEmpty);
 
   let isFormValid = false;
@@ -93,13 +102,15 @@ const PenjemputanForm = () => {
       setIsSubmitting(false);
       return;
     }
+
+    console.log(picture);
     const { data, status } = await client.postFile(
       "/api/create-request-penjemputan",
       {
         alamat: address,
         latitude: lat,
         longitude: long,
-        foto_sampah: new File([picture], "clthrsh" + lat + "-" + long + ".png"),
+        foto_sampah: document.getElementById('file'),
         berat: beratValue,
         status: "Menunggu Konfirmasi",
       }
@@ -107,6 +118,7 @@ const PenjemputanForm = () => {
 
     if (status === 201) {
       toast.success("Berhasil Membuat Request");
+      setIsSubmitting(true);
       navigate("/request-sucess");
     } else {
       toast.error("Gagal Membuat Request");
@@ -232,7 +244,7 @@ const PenjemputanForm = () => {
                             />
                           </IconButton>
                         ) : (
-                          <img src={picture} width={120}></img>
+                          <img id="file" src={picture} width={120}></img>
                         )}
                       </div>
                     ),
@@ -276,8 +288,8 @@ const PenjemputanForm = () => {
       >
         <Box sx={style}>
           <div className="foto-container">
-            <div class="box">
-              {picture === "" ? (
+            <div className="box">
+              {picture == "" ? (
                 <Webcam
                   audio={false}
                   ref={webcamRef}
@@ -288,14 +300,8 @@ const PenjemputanForm = () => {
                 <img src={picture} />
               )}
             </div>
-            <div class="box stack-top">
-              <div
-                onClick={e => {
-                  e.preventDefault();
-                  capture();
-                }}
-                className="button-foto"
-              >
+            <div className="box stack-top">
+              <div onClick={captureit} className="button-foto">
                 <img width={80} src={FotoButton}></img>
               </div>
             </div>
