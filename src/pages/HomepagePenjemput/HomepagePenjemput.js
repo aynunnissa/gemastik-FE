@@ -11,7 +11,7 @@ import {
   CardMedia,
 } from "@mui/material";
 import axios from "axios";
-
+import { client } from "../../lib/client";
 import Sampah from "./sampah.jpg";
 import Maps from "./maps.png";
 import Iframe from "react-iframe";
@@ -23,45 +23,20 @@ const HomepagePenjemput = () => {
   const [dataRequest, setDataRequest] = useState([]);
   const [accept, setAccepted] = useState(false);
 
-  const fetchData = async () => {
-    try {
-      let requestData = await axios.get(
-        "https://d11bc98b-4746-44a4-96d2-315a8141a623.mock.pstmn.io/request"
-      );
-      setDataRequest(requestData.data);
-    } catch (err) {
-      // console.log(err);
-      toast.error("Terdapat kesalahan saat fetch data");
+  async function getUserKoleksi() {
+    const { data, status } = await client.get("/api/request-penjemputan");
+    if (status === 200) {
+      setDataRequest(data);
+    } else {
+      toast.error("Gagal mengambil berat kain terkumpul");
     }
-  };
+  }
 
   useEffect(() => {
-    fetchData();
+    getUserKoleksi();
   }, []);
 
-  const processedData = [
-    {
-      name: "ID Penukar",
-      value: "ALTR190762212",
-    },
-    {
-      name: "Nama Penukar",
-      value: "MB Tshirt",
-    },
-    {
-      name: "Nomor Telepon Penukar",
-      value: "+6285890634915",
-    },
-    {
-      name: "Alamat",
-      value:
-        "ITC Permata Hijau Lt. Dasar NO. 3 & 5 Jl. Arteri Permata Hijau RT.11/RW.10 Grogol utara Kby. Lama Jakarta Selatan DKI Jakarta 12210 ID, Jl. Arteri Permata Hijau No.3, RT.1/RW.10, Grogol Utara, Kec. Kby. Lama, Kota Jakarta Selatan, Daerah Khusus Ibukota Jakarta 12210",
-    },
-    {
-      name: "Berat Sampah",
-      value: 10 + " " + "kg",
-    },
-  ];
+  console.log(dataRequest);
 
   function changeAcceptState() {
     setAccepted(!accept);
@@ -82,7 +57,7 @@ const HomepagePenjemput = () => {
             Jemput sampah ke mana hari ini?
           </div>
         </div>
-        {!accept && (
+        {dataRequest.map((item) => (
           <div className="request card">
             <Card sx={{ minWidth: 275 }} variant="outlined">
               <CardContent>
@@ -95,7 +70,93 @@ const HomepagePenjemput = () => {
                   Request Baru
                 </Typography>
                 <div>
-                  {processedData.map(item => (
+                  <TextField
+                    disabled
+                    label="ID Penukar"
+                    defaultValue={item.penukar.idPengguna}
+                    variant="standard"
+                    fullWidth
+                  />
+                  <TextField
+                    disabled
+                    label="Nama Penukar"
+                    defaultValue={item.penukar.nama}
+                    variant="standard"
+                    fullWidth
+                  />
+                  <TextField
+                    disabled
+                    label="Nomor Telepon Penukar"
+                    defaultValue={item.penukar.noTelp}
+                    variant="standard"
+                    fullWidth
+                  />
+                  <TextField
+                    disabled
+                    label="Berat"
+                    defaultValue={item.berat + " kg"}
+                    variant="standard"
+                    fullWidth
+                  />
+                  <TextField
+                    disabled
+                    label="Alamat"
+                    defaultValue={item.alamat}
+                    variant="standard"
+                    fullWidth
+                  />
+                  <TextField
+                    disabled
+                    label="Foto Sampah"
+                    variant="standard"
+                    InputProps={{
+                      disableUnderline: true,
+                      startAdornment: (
+                        <img src={Sampah} style={{ maxWidth: "10rem" }} />
+                      ),
+                    }}
+                  />
+                </div>
+              </CardContent>
+              <CardActions
+                style={{ justifyContent: "flex-end", padding: "1rem" }}
+              >
+                <Stack
+                  direction="row"
+                  justifyContent="flex-end"
+                  alignItems="center"
+                  spacing={2}
+                >
+                  <Button size="small" variant="text">
+                    Tolak
+                  </Button>
+                  <Button
+                    size="small"
+                    variant="contained"
+                    onClick={changeAcceptState}
+                  >
+                    Terima
+                  </Button>
+                </Stack>
+              </CardActions>
+            </Card>
+            <br />
+          </div>
+        ))}
+        {/* {!accept && (
+          <div className="request card">
+            <Card sx={{ minWidth: 275 }} variant="outlined">
+              <CardContent>
+                <Typography
+                  variant="h6"
+                  component="div"
+                  className="request-title"
+                  fontWeight={600}
+                >
+                  Request Baru
+                </Typography>
+                <div>
+                  {processedData.map((item) => (
                     <TextField
                       disabled
                       label={item.name}
@@ -172,7 +233,7 @@ const HomepagePenjemput = () => {
             <Card sx={{ minWidth: 275 }} variant="outlined">
               <CardContent>
                 <div>
-                  {processedData.map(item => (
+                  {processedData.map((item) => (
                     <TextField
                       disabled
                       label={item.name}
@@ -196,7 +257,7 @@ const HomepagePenjemput = () => {
               </CardContent>
             </Card>
           </div>
-        )}
+        )} */}
       </div>
     </Box>
   );

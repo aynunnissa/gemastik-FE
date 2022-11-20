@@ -43,6 +43,15 @@ const Map = () => {
       zoom: 15,
     });
 
+    map.addControl(
+      new mapboxgl.GeolocateControl({
+        positionOptions: {
+          enableHighAccuracy: true,
+        },
+        trackUserLocation: true,
+      }),
+    );
+
     let geocoder = new MapboxGeocoder({
       accessToken: mapboxgl.accessToken,
       mapboxgl: mapboxgl,
@@ -72,6 +81,10 @@ const Map = () => {
     });
     setIsLoading(false);
   }, []);
+
+  if (isLoading) {
+    return "Loading...";
+  }
 
   return (
     <div>
