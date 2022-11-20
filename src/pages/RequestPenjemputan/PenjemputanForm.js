@@ -103,9 +103,7 @@ const PenjemputanForm = () => {
       return;
     }
 
-    const formData = new FormData();
-    formData.append("halodek", picture);
-    console.log(formData.get('halodek'));
+    console.log(picture);
     const { data, status } = await client.postFile(
       "/api/create-request-penjemputan",
       {
