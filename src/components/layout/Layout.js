@@ -23,7 +23,10 @@ const Layout = ({ children, auth }) => {
     <>
       <CssBaseline />
       <Navbar />
-      <Container maxWidth="sm" sx={{ position: "relative" }}>
+      <Container
+        maxWidth="sm"
+        sx={{ position: "relative", paddingLeft: 0, paddingRight: 0 }}
+      >
         <Box sx={{ minHeight: "90vh", backgroundColor: "#FFFFFF" }}>
           {children}
         </Box>
@@ -42,7 +45,7 @@ const Layout = ({ children, auth }) => {
                 justifyContent: "center",
               }}
             >
-              <Container maxWidth="sm">
+              <Container maxWidth="sm" sx={{ paddingLeft: 0, paddingRight: 0 }}>
                 <Footer />
               </Container>
             </Box>
@@ -52,7 +55,7 @@ const Layout = ({ children, auth }) => {
   );
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     auth: state.auth,
   };

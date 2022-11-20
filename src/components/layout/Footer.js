@@ -18,10 +18,24 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import QrCodeScannerIcon from "@mui/icons-material/QrCodeScanner";
 import { connect } from "react-redux";
 import { logout } from "../../store/actions/action";
+import { makeStyles } from "@mui/styles";
+
+const useStyles = makeStyles(theme => ({
+  menu: {
+    minWidth: 0,
+    padding: 0,
+    "& .Mui-selected, & .MuiBottomNavigationAction-label": {
+      fontSize: "10px",
+      marginTop: "5px",
+    },
+  },
+}));
 
 const Footer = ({ logout, auth }) => {
   const [value, setValue] = React.useState(0);
   const push = useNavigate();
+  const classes = useStyles();
+
   return (
     <Paper elevation={3} sx={{ borderRadius: "10px 10px 0px 0px" }}>
       <BottomNavigation
@@ -33,6 +47,8 @@ const Footer = ({ logout, auth }) => {
         }}
       >
         <BottomNavigationAction
+          className={classes.menu}
+          sx={{ fontSize: "10px !important" }}
           label="Beranda"
           icon={<HomeIcon />}
           onClick={() => {
@@ -40,6 +56,8 @@ const Footer = ({ logout, auth }) => {
           }}
         />
         <BottomNavigationAction
+          className={classes.menu}
+          sx={{ fontSize: "10px !important" }}
           label="Riwayat"
           icon={<LibraryBooksIcon />}
           onClick={() => {
@@ -47,9 +65,10 @@ const Footer = ({ logout, auth }) => {
           }}
         />
         <BottomNavigationAction
+          className={classes.menu}
           label="Riwayat"
           icon={<LibraryBooksIcon />}
-          sx={{ opacity: 0, backgroundColor: "red" }}
+          sx={{ opacity: 0, backgroundColor: "red", fontSize: "10px" }}
           onClick={() => {
             push("/user/history");
           }}
@@ -70,19 +89,24 @@ const Footer = ({ logout, auth }) => {
             top: "-50%",
             borderRadius: "10px",
             cursor: "pointer",
+            fontSize: "10px !important",
           }}
           p={3}
         >
-          <QrCodeScannerIcon sx={{ color: "white" }} fontSize="large" />
+          <QrCodeScannerIcon sx={{ color: "white" }} fontSize="medium" />
         </Box>
         <BottomNavigationAction
+          className={classes.menu}
           label="Akun"
           onClick={() => {
             push("/user/profile");
           }}
           icon={<AccountCircleIcon />}
+          sx={{ fontSize: "10px !important" }}
         />
         <BottomNavigationAction
+          className={classes.menu}
+          sx={{ fontSize: "10px !important" }}
           label="Logout"
           icon={<LogoutIcon />}
           onClick={() => {
