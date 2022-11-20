@@ -26,9 +26,3 @@
   padding: 20px;
   min-height: 28vh;
 }
-
-div.mapboxgl-ctrl-geocoder.mapboxgl-ctrl{
-  margin-top: 5vh;
-  margin-left: 1.5vw;
-  min-width: 36.3vw;
-}

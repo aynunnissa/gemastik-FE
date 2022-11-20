@@ -22,10 +22,10 @@ import { Link, useNavigate } from "react-router-dom";
 import { client } from "../../lib/client";
 import { toast } from "react-toastify";
 
-const isNotEmpty = value => value.trim() !== "";
-const isEmail = value => value.includes("@");
-const isNumber = value => !Number.isNaN(Number(value));
-const isValidPassword = value =>
+const isNotEmpty = (value) => value.trim() !== "";
+const isEmail = (value) => value.includes("@");
+const isNumber = (value) => !Number.isNaN(Number(value));
+const isValidPassword = (value) =>
   value.match(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/);
 
 const Register = () => {
@@ -33,13 +33,29 @@ const Register = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [role, setRole] = useState("");
+  const [latitude, setLatitude] = useState(0);
+  const [longitude, setLongitude] = useState(0);
 
-  const handleChangeRole = event => {
+  // get user's current coordinates
+  navigator.geolocation.getCurrentPosition(successLocation, errorLocation, {
+    enableHighAccuracy: true,
+  });
+
+  function successLocation(position) {
+    setLatitude(position.coords.latitude);
+    setLongitude(position.coords.longitude);
+  }
+
+  function errorLocation() {
+    toast.error("Aplikasi ini membutuhkan akses lokasi mu");
+  }
+
+  const handleChangeRole = (event) => {
     setRole(event.target.value);
   };
 
   const handleClickShowPassword = () => {
-    setShowPassword(prev => !prev);
+    setShowPassword((prev) => !prev);
   };
 
   const {
@@ -108,12 +124,23 @@ const Register = () => {
       return;
     }
 
+    console.log(latitude);
+    console.log(longitude);
+
+    if (latitude == 0 && longitude == 0) {
+      setIsSubmitting(false);
+      return;
+    }
+
     const { data, status } = await client.post("/api/create-user", {
       no_telp: phoneValue,
       nama: fullNameValue,
       peran: role,
       password: passwordValue,
+      latitude: latitude,
+      longitude: longitude
     });
+
     if (status === 201) {
       toast.success("Registrasi akun berhasil");
       push("/auth/login");
@@ -123,9 +150,10 @@ const Register = () => {
     setIsSubmitting(false);
   }
 
-  const handleMouseDownPassword = event => {
+  const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
+
   return (
     <Box component="main" className="gradient-bg" pt={3}>
       <Grid container justifyContent="center">
