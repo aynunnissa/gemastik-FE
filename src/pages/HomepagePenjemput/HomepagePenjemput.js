@@ -8,58 +8,78 @@ import {
   Typography,
   Stack,
   TextField,
-  CardMedia,
 } from "@mui/material";
-import axios from "axios";
+import { useNavigate, Link } from "react-router-dom";
 import { client } from "../../lib/client";
-import Sampah from "./sampah.jpg";
-import Maps from "./maps.png";
-import Iframe from "react-iframe";
+
 
 import "./HomepagePenjemput.css";
 import { toast } from "react-toastify";
+import "./HomepagePenjemput.css";
 
 const HomepagePenjemput = () => {
   const [dataRequest, setDataRequest] = useState([]);
-  const [accept, setAccepted] = useState(false);
+  const push = useNavigate();
 
-  async function getUserKoleksi() {
+  async function getRequestData() {
     const { data, status } = await client.get("/api/request-penjemputan");
+
     if (status === 200) {
-      setDataRequest(data);
+      let dataMenungguKonfirmasi = [];
+      data.map((item) => {
+        if (item.status === "Menunggu Konfirmasi") {
+          dataMenungguKonfirmasi.push(item);
+        }
+      });
+      setDataRequest(dataMenungguKonfirmasi);
     } else {
       toast.error("Gagal mengambil berat kain terkumpul");
     }
   }
 
+  async function updateStatusDiterima(id) {
+    const { data, status } = await client.put(
+      "/api/update-status-penjemputan/" + id,
+      {
+        status: "Dalam Perjalanan",
+      }
+    );
+    push("/jemput-sampah/" + id);
+  }
+
+  async function updateStatusDitolak(id) {
+    const { data, status } = await client.put(
+      "/api/update-status-penjemputan/" + id,
+      {
+        status: "Ditolak",
+      }
+    );
+    window.location.reload(false);
+  }
   useEffect(() => {
-    getUserKoleksi();
+    getRequestData();
   }, []);
 
-  console.log(dataRequest);
-
-  function changeAcceptState() {
-    setAccepted(!accept);
-  }
   return (
-    <Box
-      component="form"
-      sx={{
-        "& .MuiTextField-root": { m: 2, width: "40ch" },
-      }}
-      noValidate
-      autoComplete="off"
-    >
-      <div>
-        <div className="penjemput header">
-          <div className="penjemput title">Jemput Sampah</div>
-          <div className="penjemput subtitle">
-            Jemput sampah ke mana hari ini?
-          </div>
+    <div>
+      <div className="penjemput header">
+        <div className="penjemput title">Jemput Sampah</div>
+        <div className="penjemput subtitle">
+          Jemput sampah ke mana hari ini?
         </div>
-        {dataRequest.map((item) => (
-          <div className="request card">
-            <Card sx={{ minWidth: 275 }} variant="outlined">
+      </div>
+      <Box
+        sx={{
+          "& .MuiTextField-root": { m: 2 },
+        }}
+      >
+        <div className="pickup card" style={{ marginTop: "-8vh" }}>
+          {dataRequest.map((item) => (
+            <Card
+              sx={{ minWidth: 275 }}
+              variant="outlined"
+              style={{ marginBottom: "5vh" }}
+            >
               <CardContent>
                 <Typography
                   variant="h6"
@@ -112,7 +132,10 @@ const HomepagePenjemput = () => {
                     InputProps={{
                       disableUnderline: true,
                       startAdornment: (
-                        <img src={Sampah} style={{ maxWidth: "10rem" }} />
+                        <img
+                          src={item.fotoSampah}
+                          style={{ maxWidth: "10rem" }}
+                        />
                       ),
                     }}
                   />
@@ -127,139 +150,27 @@ const HomepagePenjemput = () => {
                   alignItems="center"
                   spacing={2}
                 >
-                  <Button size="small" variant="text">
+                  <Button
+                    size="small"
+                    variant="text"
+                    onClick={() => updateStatusDitolak(item.id)}
+                  >
                     Tolak
                   </Button>
                   <Button
                     size="small"
                     variant="contained"
-                    onClick={changeAcceptState}
+                    onClick={() => updateStatusDiterima(item.id)}
                   >
                     Terima
                   </Button>
                 </Stack>
               </CardActions>
             </Card>
-            <br />
-          </div>
-        ))}
-        {/* {!accept && (
-          <div className="request card">
-            <Card sx={{ minWidth: 275 }} variant="outlined">
-              <CardContent>
-                <Typography
-                  variant="h6"
-                  component="div"
-                  className="request-title"
-                  fontWeight={600}
-                >
-                  Request Baru
-                </Typography>
-                <div>
-                  {processedData.map((item) => (
-                    <TextField
-                      disabled
-                      label={item.name}
-                      defaultValue={item.value}
-                      variant="standard"
-                      fullWidth
-                    />
-                  ))}
-                  <TextField
-                    disabled
-                    label="Foto Sampah"
-                    variant="standard"
-                    InputProps={{
-                      disableUnderline: true,
-                      startAdornment: (
-                        <img src={Sampah} style={{ maxWidth: "10rem" }} />
-                      ),
-                    }}
-                  />
-                </div>
-              </CardContent>
-              <CardActions
-                style={{ justifyContent: "flex-end", padding: "1rem" }}
-              >
-                <Stack
-                  direction="row"
-                  justifyContent="flex-end"
-                  alignItems="center"
-                  spacing={2}
-                >
-                  <Button size="small" variant="text">
-                    Tolak
-                  </Button>
-                  <Button
-                    size="small"
-                    variant="contained"
-                    onClick={changeAcceptState}
-                  >
-                    Terima
-                  </Button>
-                </Stack>
-              </CardActions>
-            </Card>
-          </div>
-        )}
-        {accept && (
-          <div className="pickup card">
-            <Typography
-              variant="h6"
-              component="div"
-              className="request-title"
-              fontWeight={600}
-            >
-              Pick-Up Point
-            </Typography>
-            <Card sx={{ minWidth: 275 }} variant="outlined">
-              <Iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.321071520351!2d106.78199931442838!3d-6.221325862663748!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f1847d6b7ca7%3A0xd629791658bc8285!2sMB%20TSHIRT%20PREMIUM!5e0!3m2!1sen!2sid!4v1666519134753!5m2!1sen!2sid"
-                width="400"
-                height="300"
-                loading="lazy"
-                referrerpolicy="no-referrer-when-downgrade"
-              ></Iframe>
-            </Card>
-            <br />
-            <Typography
-              variant="h6"
-              component="div"
-              className="request-title"
-              fontWeight={600}
-            >
-              Informasi Sampah Kain
-            </Typography>
-            <Card sx={{ minWidth: 275 }} variant="outlined">
-              <CardContent>
-                <div>
-                  {processedData.map((item) => (
-                    <TextField
-                      disabled
-                      label={item.name}
-                      defaultValue={item.value}
-                      variant="standard"
-                      fullWidth
-                    />
-                  ))}
-                  <TextField
-                    disabled
-                    label="Foto Sampah"
-                    variant="standard"
-                    InputProps={{
-                      disableUnderline: true,
-                      startAdornment: (
-                        <img src={Sampah} style={{ maxWidth: "10rem" }} />
-                      ),
-                    }}
-                  />
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        )} */}
-      </div>
-    </Box>
+          ))}
+        </div>
+      </Box>
+    </div>
   );
 };
 

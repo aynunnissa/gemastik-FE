@@ -1,18 +1,14 @@
 import { Box, Button, Stack, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import SuccessImage from "../../images/success.png";
+import { connect } from "react-redux";
 
-const Success = () => {
+const Success = ({ auth }) => {
   const push = useNavigate();
   return (
-    <Box pb={5} pt={4} mx={4}>
+    <Box style={{padding: "30px"}}>
       <Box textAlign="center">
-        <img
-          width="45%"
-          height="auto"
-          src={SuccessImage}
-          alt="Penukaran berhasil"
-        />
+        <img height="auto" src={SuccessImage} alt="Penukaran berhasil" />
       </Box>
       <Typography
         textAlign="center"
@@ -23,11 +19,18 @@ const Success = () => {
       >
         Penukaran Sampah Kain Berhasil
       </Typography>
-      <Typography textAlign="center" component="p" variant="body2">
-        Berhasil melakukan konfirmasi penukaran sampah kain. Pastikan menyimpan
-        sampah kain dengan baik dan lakukan request penjemputan jika sudah
-        memenuhi minimum berat sampah.
-      </Typography>
+      {auth.role === "Mitra" || auth.role === "Penabung" ? (
+        <Typography textAlign="center" component="p" variant="body2">
+          Berhasil melakukan konfirmasi penukaran sampah kain. Pastikan
+          menyimpan sampah kain dengan baik dan lakukan request penjemputan jika
+          sudah memenuhi minimum berat sampah.
+        </Typography>
+      ) : (
+        <Typography textAlign="center" component="p" variant="body2">
+          Berhasil melakukan konfirmasi penukaran sampah kain.
+        </Typography>
+      )}
+
       <Stack mt={3} justifyContent="center">
         <Button
           variant="contained"
@@ -42,4 +45,10 @@ const Success = () => {
   );
 };
 
-export default Success;
+const mapStateToProps = (state) => {
+  return {
+    auth: state.auth,
+  };
+};
+
+export default connect(mapStateToProps)(Success);

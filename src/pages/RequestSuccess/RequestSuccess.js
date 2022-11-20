@@ -12,10 +12,10 @@ const RequestSuccess = () => {
         alignItems="center"
         justifyContent="center"
         textAlign="center"
-        paddingTop="100px"
-        paddingBottom="100px"
+        paddingTop="10vh"
+        paddingBottom="14vh"
       >
-        <img src={Truck}></img>
+        <img src={Truck} width="380vw"></img>
         <Box m={2} pt={3}>
           <Typography variant="h6" sx={{ fontWeight: "bold" }}>
             Request Penjemputan

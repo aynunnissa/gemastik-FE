@@ -24,7 +24,7 @@ const InputDataPenukar = ({ auth }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleBeratChange = e => {
+  const handleBeratChange = (e) => {
     setTotalBerat(e.target.value);
   };
 
@@ -102,14 +102,26 @@ const InputDataPenukar = ({ auth }) => {
               borderRadius: "10px",
             }}
           >
-            <Typography
-              component="h2"
-              variant="body1"
-              fontWeight={600}
-              textAlign="center"
-            >
-              Penukaran ke Mitra
-            </Typography>
+            {auth.role === "Mitra" ? (
+              <Typography
+                component="h2"
+                variant="body1"
+                fontWeight={600}
+                textAlign="center"
+              >
+                Penukaran ke Mitra
+              </Typography>
+            ) : (
+              <Typography
+                component="h2"
+                variant="body1"
+                fontWeight={600}
+                textAlign="center"
+              >
+                Penukaran ke Penjemput
+              </Typography>
+            )}
+
             <Typography
               component="p"
               variant="caption"
@@ -147,7 +159,7 @@ const InputDataPenukar = ({ auth }) => {
                   size="small"
                   type="number"
                   value={totalBerat}
-                  onChange={e => handleBeratChange(e)}
+                  onChange={(e) => handleBeratChange(e)}
                 />
                 <Typography component="p" variant="subtitle1" ml={1}>
                   Kg
@@ -173,7 +185,7 @@ const InputDataPenukar = ({ auth }) => {
   );
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     auth: state.auth,
   };
