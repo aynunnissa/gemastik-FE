@@ -37,7 +37,10 @@ const Footer = ({ logout, auth }) => {
   const classes = useStyles();
 
   return (
-    <Paper elevation={3} sx={{ borderRadius: "10px 10px 0px 0px" }}>
+    <Paper
+      elevation={3}
+      sx={{ borderRadius: "10px 10px 0px 0px", padding: "0.3rem 0rem" }}
+    >
       <BottomNavigation
         sx={{ position: "relative", borderRadius: "10px 10px 0px 0px" }}
         showLabels
