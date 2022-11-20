@@ -8,6 +8,11 @@ import "./Map.css";
 import { Box } from "@mui/material";
 import CardMap from "./CardMap";
 
+// eslint-disable-next-line import/no-webpack-loader-syntax
+mapboxgl.workerClass =
+  // eslint-disable-next-line import/no-webpack-loader-syntax
+  require("worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker").default;
+
 mapboxgl.accessToken =
   "pk.eyJ1IjoiYWxmbm1zIiwiYSI6ImNsYWxrdjIwdzA2dmEzbnBlZDg4MjhseHEifQ.xEaEAB-r-ISe7YIkuvRpaA";
 
