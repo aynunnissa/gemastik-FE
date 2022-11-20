@@ -38,7 +38,7 @@ const HomepagePenjemput = () => {
   }
 
   async function updateStatusDiterima(id) {
-    const { data, status } = await client.put(
+    const { data, status } = await client.patch(
       "/api/update-status-penjemputan/" + id,
       {
         status: "Dalam Perjalanan",
@@ -48,7 +48,7 @@ const HomepagePenjemput = () => {
   }
 
   async function updateStatusDitolak(id) {
-    const { data, status } = await client.put(
+    const { data, status } = await client.patch(
       "/api/update-status-penjemputan/" + id,
       {
         status: "Ditolak",

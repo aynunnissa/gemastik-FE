@@ -63,6 +63,8 @@ client.delete = (url, data) =>
 client.post = (url, data) =>
   client(url, { method: "POST", data: data }, {}, {});
 client.put = (url, data) => client(url, { method: "PUT", data: data }, {}, {});
+client.patch = (url, data) =>
+  client(url, { method: "PATCH", data: data }, {}, {});
 
 client.getParams = (url, data) =>
   client(url, { method: "GET", data: data }, {}, data);
