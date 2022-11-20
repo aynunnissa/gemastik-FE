@@ -15,6 +15,7 @@ import HomeIcon from "@mui/icons-material/Home";
 import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import LogoutIcon from "@mui/icons-material/Logout";
+import MapIcon from "@mui/icons-material/Map";
 import QrCodeScannerIcon from "@mui/icons-material/QrCodeScanner";
 import { connect } from "react-redux";
 import { logout } from "../../store/actions/action";
@@ -98,6 +99,15 @@ const Footer = ({ logout, auth }) => {
         >
           <QrCodeScannerIcon sx={{ color: "white" }} fontSize="medium" />
         </Box>
+        {/* <BottomNavigationAction
+          className={classes.menu}
+          sx={{ fontSize: "10px !important" }}
+          label="Mitra"
+          icon={<MapIcon />}
+          onClick={() => {
+            push("/persebaran/mitra");
+          }}
+        /> */}
         <BottomNavigationAction
           className={classes.menu}
           label="Akun"

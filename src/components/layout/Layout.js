@@ -25,7 +25,11 @@ const Layout = ({ children, auth }) => {
       <Navbar />
       <Container
         maxWidth="sm"
-        sx={{ position: "relative", paddingLeft: 0, paddingRight: 0 }}
+        sx={{
+          position: "relative",
+          paddingLeft: "0 !important",
+          paddingRight: "0 !important",
+        }}
       >
         <Box sx={{ minHeight: "90vh", backgroundColor: "#FFFFFF" }}>
           {children}
@@ -43,9 +47,16 @@ const Layout = ({ children, auth }) => {
                 right: 0,
                 display: "flex",
                 justifyContent: "center",
+                zIndex: 5,
               }}
             >
-              <Container maxWidth="sm" sx={{ paddingLeft: 0, paddingRight: 0 }}>
+              <Container
+                maxWidth="sm"
+                sx={{
+                  paddingLeft: "0 !important",
+                  paddingRight: "0 !important",
+                }}
+              >
                 <Footer />
               </Container>
             </Box>

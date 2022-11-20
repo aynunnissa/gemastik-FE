@@ -17,6 +17,7 @@ import { connect } from "react-redux";
 import HomepageMitra from "../pages/Homepage Mitra/HomepageMitra";
 import RequestSuccess from "../pages/RequestSuccess/RequestSuccess";
 import JemputSampah from "../pages/JemputSampah/JemputSampah";
+import PersebaranMitra from "../pages/PersebaranMitra";
 
 const AllRoute = ({ auth }) => {
   return (
@@ -41,6 +42,8 @@ const AllRoute = ({ auth }) => {
       <Route path="/on-boarding" element={<OnBoarding />} />
       <Route path="/penukaran/tracking" element={<Tracking />} />
 
+      <Route path="/persebaran/mitra" element={<PersebaranMitra />} />
+
       <Route path="/mitra/scan-qr-penukar" element={<ScanQRPenukar />} />
       <Route
         path="/mitra/input-data-penukar/:idPengguna"
@@ -54,12 +57,11 @@ const AllRoute = ({ auth }) => {
       <Route path="/request-sucess" element={<RequestSuccess />} />
       <Route path="/jemput-sampah/:idRequest" element={<JemputSampah />} />
       <Route path="/penjemput/riwayat" element={<JemputSampah />} />
-
     </Routes>
   );
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     auth: state.auth,
   };

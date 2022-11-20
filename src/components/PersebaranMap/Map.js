@@ -5,7 +5,7 @@ import axios from "axios";
 import "mapbox-gl/dist/mapbox-gl.css";
 import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
 import "./Map.css";
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import CardMap from "./CardMap";
 
 // eslint-disable-next-line import/no-webpack-loader-syntax
@@ -16,11 +16,31 @@ mapboxgl.workerClass =
 mapboxgl.accessToken =
   "pk.eyJ1IjoiYWxmbm1zIiwiYSI6ImNsYWxrdjIwdzA2dmEzbnBlZDg4MjhseHEifQ.xEaEAB-r-ISe7YIkuvRpaA";
 
+const MITRALOCATIONS = [
+  {
+    lng: 106.8298274603269,
+    lat: -6.36488353137041,
+  },
+  {
+    lng: 106.83019224075304,
+    lat: -6.3608316878468685,
+  },
+  {
+    lng: 106.83039251192383,
+    lat: -6.362750319789356,
+  },
+  {
+    lng: 106.82773176058163,
+    lat: -6.363667315328513,
+  },
+];
+
 const Map = () => {
   const mapContainerRef = useRef(null);
   const [lat, setLat] = useState(-6.36452);
   const [long, setLong] = useState(106.82854);
   const [address, setAddress] = useState("Pilih Lokasi Pick-Up");
+  const [mitraLocs, setMitraLocs] = useState(MITRALOCATIONS);
   const [isLoading, setIsLoading] = useState(false);
 
   const fetchAddress = async (longitude, latitude) => {
@@ -34,6 +54,10 @@ const Map = () => {
     }
   };
 
+  const handleClickMarker = loc => {
+    console.log(loc);
+  };
+
   useEffect(() => {
     setIsLoading(true);
     const map = new mapboxgl.Map({
@@ -43,42 +67,22 @@ const Map = () => {
       zoom: 15,
     });
 
-    map.addControl(
-      new mapboxgl.GeolocateControl({
-        positionOptions: {
-          enableHighAccuracy: true,
-        },
-        trackUserLocation: true,
-      })
-    );
+    let c = mitraLocs;
+    createMarker();
 
-    let geocoder = new MapboxGeocoder({
-      accessToken: mapboxgl.accessToken,
-      mapboxgl: mapboxgl,
-      countries: "id",
-      placeholder: "Masukan Lokasi Penjemputan",
-    });
+    // Create a default Marker and add it to the map.
+    var marker = new mapboxgl.Marker({ color: "red" })
+      .setLngLat([long, lat])
+      .addTo(map)
+      .on("click", () => console.log([long, lat]));
 
-    map.addControl(geocoder, "top-left");
-
-    let marker = new mapboxgl.Marker({ draggable: true, color: "red" });
-
-    geocoder.on("result", function (e) {
-      setLat(e.result.geometry.coordinates[1]);
-      setLong(e.result.geometry.coordinates[0]);
-      fetchAddress(
-        e.result.geometry.coordinates[0],
-        e.result.geometry.coordinates[1]
-      );
-      marker.setLngLat(e.result.center).addTo(map);
-      geocoder.clear();
-      marker.on("dragend", function (e) {
-        let lngLat = e.target.getLngLat();
-        setLat(lngLat["lat"]);
-        setLong(lngLat["lng"]);
-        fetchAddress(lngLat["lng"], lngLat["lat"]);
-      });
-    });
+    function createMarker() {
+      for (var i = 0; i < c.length; i++) {
+        const marker = new mapboxgl.Marker({})
+          .setLngLat([c[i].lng, c[i].lat])
+          .addTo(map);
+      }
+    }
     setIsLoading(false);
   }, []);
 
@@ -90,8 +94,20 @@ const Map = () => {
     <div>
       {!isLoading && (
         <div>
-          <Box pt={3}>
-            <CardMap location={address} latitude={lat} longitude={long} />
+          <Box
+            px={2}
+            py={2}
+            zIndex={5}
+            position="absolute"
+            sx={{ backgroundColor: "white", borderRadius: "10px" }}
+            top="10px"
+            right="20px"
+            left="20px"
+            textAlign="center"
+          >
+            <Typography component="h1" variant="subtitle1" fontWeight={700}>
+              Persebaran Mitra di Daerahmu
+            </Typography>
           </Box>
           <div className="map__container" ref={mapContainerRef} />
         </div>
