@@ -7,17 +7,19 @@ import {
   IconButton,
   CardMedia,
   Button,
+  Chip,
 } from "@mui/material";
 import "./HomepagePenabung.css";
 import Penjemputan from "./Penjemputan.svg";
 import TarikDana from "./TarikDanaSementara.svg";
 import Challenge from "./Challenge.svg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { client } from "../../lib/client";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
 const HomepagePenabung = () => {
+  const push = useNavigate();
   const [user, setUser] = useState({});
   const [poin, setPoin] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
@@ -59,6 +61,12 @@ const HomepagePenabung = () => {
         <Typography component="h2" className="semi-bold">
           <b>Hello, {user?.nama}</b>
         </Typography>
+        <Chip
+          label="Lihat mitra penukaran terdekat"
+          color="success"
+          sx={{ cursor: "pointer", margin: "5px 0px 10px 0px" }}
+          onClick={() => push("/persebaran/mitra")}
+        />
       </Container>
 
       <Card className="card-homepage-penabung text-left">
