@@ -18,6 +18,7 @@ import HomepageMitra from "../pages/Homepage Mitra/HomepageMitra";
 import RequestSuccess from "../pages/RequestSuccess/RequestSuccess";
 import JemputSampah from "../pages/JemputSampah/JemputSampah";
 import PersebaranMitra from "../pages/PersebaranMitra";
+import PersebaranPenabung from "../pages/PersebaranPenabung";
 
 const AllRoute = ({ auth }) => {
   return (
@@ -43,6 +44,7 @@ const AllRoute = ({ auth }) => {
       <Route path="/penukaran/tracking" element={<Tracking />} />
 
       <Route path="/persebaran/mitra" element={<PersebaranMitra />} />
+      <Route path="/persebaran/penabung" element={<PersebaranPenabung />} />
 
       <Route path="/mitra/scan-qr-penukar" element={<ScanQRPenukar />} />
       <Route
