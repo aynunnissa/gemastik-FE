@@ -7,6 +7,7 @@ import {
   IconButton,
   CardMedia,
   Button,
+  Chip,
 } from "@mui/material";
 import "./HomepagePenabung.css";
 import Penjemputan from "./Penjemputan.svg";
@@ -18,6 +19,7 @@ import { toast } from "react-toastify";
 import { useLocation, useNavigate, Link } from "react-router-dom";
 
 const HomepageMitra = () => {
+  const push = useNavigate();
   const [user, setUser] = useState({});
   const [poin, setPoin] = useState(0);
   const [koleksi, setKoleksi] = useState(0);
@@ -72,9 +74,18 @@ const HomepageMitra = () => {
         <Typography component="h2" className="semi-bold">
           <b>Hello, {user?.nama}</b>
         </Typography>
+        <Chip
+          label="Cek peluangmu menjadi mitra"
+          color="success"
+          sx={{ cursor: "pointer", margin: "5px 0px 10px 0px" }}
+          onClick={() => push("/persebaran/penabung")}
+        />
       </Container>
 
-      <Card className="card-homepage-penabung text-left">
+      <Card
+        className="card-homepage-penabung text-left"
+        sx={{ marginTop: "10px" }}
+      >
         <Box className="col">
           <Box className="center row-box">
             <Box className="col" sx={{ width: "15rem" }}>
