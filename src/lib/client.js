@@ -1,7 +1,7 @@
 import axios from "axios";
 import authHeader from "./auth-header";
 
-export const bashUrl = "https://sanatech.pythonanywhere.com";
+export const bashUrl = "http://127.0.0.1:8000";
 
 // Bisa ditambah params kalo butuh get request dengan params
 // source: https://axios-http.com/docs/req_config

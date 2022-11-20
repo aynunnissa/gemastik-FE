@@ -81,7 +81,7 @@ const Footer = ({ logout, auth }) => {
           display="flex"
           onClick={() => {
             setValue(null);
-            if (auth.role === "Mitra") {
+            if (auth.role === "Mitra" || auth.role === "Penjemput") {
               push("/mitra/scan-qr-penukar");
             } else if (auth.role === "Penabung") {
               push("/user/profile");
@@ -137,7 +137,7 @@ const Footer = ({ logout, auth }) => {
   );
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     auth: state.auth,
   };
